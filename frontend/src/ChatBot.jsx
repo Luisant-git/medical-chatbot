@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
+
+const API_BASE = import.meta.env.VITE_API_URL || '';
 import './ChatBot.css'
 import SymptomCards from './SymptomCards'
 
@@ -147,7 +149,7 @@ function ChatBot({ onLogout }) {
     setIsLoading(true)
 
     try {
-      const response = await axios.post('/api/chat', { message: input })
+      const response = await axios.post(`${API_BASE}/api/chat`, { message: input })
       
       setIsLoading(false)
       
@@ -228,7 +230,7 @@ function ChatBot({ onLogout }) {
     }
 
     try {
-      const response = await axios.post('/api/find-doctors', {
+      const response = await axios.post(`${API_BASE}/api/find-doctors`, {
         location: userLocation,
         specialty: specialty
       })

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import './SymptomCards.css';
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 export default function SymptomCards({ onComplete }) {
   const [flow, setFlow] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -46,7 +48,7 @@ export default function SymptomCards({ onComplete }) {
       // Show loading state
       setResult({ loading: true });
       
-      const res = await fetch('/api/symptom-collect', {
+      const res = await fetch(`${API_BASE}/api/symptom-collect`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

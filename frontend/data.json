@@ -1,0 +1,19 @@
+{
+  "symptoms": [
+    "fever",
+    "cough",
+    "fatigue",
+    "difficulty_breathing",
+    "headache",
+    "sore_throat",
+    "body_aches",
+    "loss_of_taste"
+  ],
+  "diseases": [
+    "Common Cold",
+    "Flu",
+    "COVID-19",
+    "Allergies",
+    "Healthy"
+  ]
+}

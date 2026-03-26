@@ -1,0 +1,10 @@
+{
+  "simple_keywords": ["fever", "cold", "headache", "cough", "flu", "temperature", "paracetamol", "rest"],
+  "complex_keywords": ["chronic", "severe", "persistent", "blood", "chest pain", "breathing", "unconscious"],
+  "emergency_keywords": ["emergency", "urgent", "heart attack", "stroke", "bleeding", "suicide", "cant breathe"],
+  "simple_responses": {
+    "fever": "For mild fever, rest and drink fluids. Take paracetamol if needed. See doctor if >3 days or >103°F.",
+    "cold": "Rest, fluids, and OTC medications. Usually resolves in 7-10 days. See doctor if symptoms worsen.",
+    "headache": "Rest in dark room, hydrate, take paracetamol. See doctor if severe or persistent >3 days."
+  }
+}

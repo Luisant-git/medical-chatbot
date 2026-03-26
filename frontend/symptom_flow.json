@@ -1,0 +1,63 @@
+{
+  "flow": [
+    {
+      "id": "fever",
+      "question": "Do you have a fever?",
+      "type": "yesno",
+      "followup": {
+        "yes": {
+          "question": "How high is your temperature?",
+          "type": "choice",
+          "options": ["Below 100°F (37.8°C)", "100-102°F (37.8-38.9°C)", "Above 102°F (38.9°C)", "Haven't measured"]
+        }
+      }
+    },
+    {
+      "id": "duration",
+      "question": "How long have you had these symptoms?",
+      "type": "choice",
+      "options": ["Less than 24 hours", "1-3 days", "3-7 days", "More than a week"]
+    },
+    {
+      "id": "other_symptoms",
+      "question": "Do you have any of these symptoms?",
+      "type": "multichoice",
+      "options": ["Headache", "Chills", "Sore throat", "Cough", "Body aches", "Nausea/Vomiting", "Diarrhea", "None"]
+    },
+    {
+      "id": "pain",
+      "question": "Are you experiencing any pain?",
+      "type": "yesno",
+      "followup": {
+        "yes": {
+          "question": "Where is the pain located?",
+          "type": "multichoice",
+          "options": ["Head", "Throat", "Chest", "Stomach", "Muscles", "Joints", "Other"]
+        }
+      }
+    },
+    {
+      "id": "respiratory",
+      "question": "Do you have any breathing issues?",
+      "type": "multichoice",
+      "options": ["Difficulty breathing", "Shortness of breath", "Wheezing", "Runny nose", "Congestion", "None"]
+    },
+    {
+      "id": "exposure",
+      "question": "Have you been exposed to sick people or traveled recently?",
+      "type": "yesno"
+    },
+    {
+      "id": "medication",
+      "question": "Have you taken any medication?",
+      "type": "yesno",
+      "followup": {
+        "yes": {
+          "question": "What medication did you take?",
+          "type": "multichoice",
+          "options": ["Paracetamol/Tylenol", "Ibuprofen/Advil", "Aspirin", "Cough syrup", "Antihistamine", "Other"]
+        }
+      }
+    }
+  ]
+}

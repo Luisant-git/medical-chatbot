@@ -39,70 +39,14 @@ export default function SymptomCards({ onComplete }) {
     if (currentIndex < flow.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      submit();
-    }
-  };
-
-  const submit = async () => {
-    try {
-      // Show loading state
-      setResult({ loading: true });
-      
-      const res = await fetch(`${API_BASE}/api/symptom-collect`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          answers,
-          language: localStorage.getItem('language') || 'en'
-        })
-      });
-      
-      if (!res.ok) {
-        throw new Error('Failed to analyze symptoms');
-      }
-      
-      const data = await res.json();
-      setResult(data);
-      
-      // Pass the answers to parent for further processing
+      // Pass answers to parent for analysis
       if (onComplete) {
         onComplete(answers);
       }
-    } catch (error) {
-      console.error('Symptom collection error:', error);
-      setResult({ error: 'Failed to analyze symptoms. Please try again.' });
     }
   };
 
-  if (result) {
-    if (result.loading) {
-      return (
-        <div className="symptom-cards">
-          <div className="card">
-            <h3>Analyzing your symptoms...</h3>
-            <div className="loading-spinner"></div>
-          </div>
-        </div>
-      );
-    }
-    
-    if (result.error) {
-      return (
-        <div className="symptom-cards">
-          <div className="card">
-            <h3>Error</h3>
-            <p>{result.error}</p>
-            <button onClick={() => setResult(null)}>Try Again</button>
-          </div>
-        </div>
-      );
-    }
-    
-    // Close modal and let parent handle the display
-    return null;
-  }
-
-  if (!flow.length) return <div>Loading...</div>;
+  if (!flow.length) return <div className="loading-flow">Analyzing your symptoms...</div>;
 
   const current = flow[currentIndex];
   const followup = showFollowup && current.followup[answers[current.id]];

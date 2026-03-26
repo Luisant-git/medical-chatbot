@@ -63,7 +63,7 @@ router.get('/symptom-flow', async (req, res) => {
   }
 });
 
-router.post('/symptom-collect', async (req, res) => {
+router.post('/symptom-analyze', async (req, res) => {
   try {
     const { answers, language } = req.body;
 

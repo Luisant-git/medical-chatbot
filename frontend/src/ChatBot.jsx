@@ -180,7 +180,7 @@ function ChatBot({ onLogout }) {
     try {
       console.log('Symptom answers:', result)
       
-      const response = await axios.post('/api/symptom-analyze', {
+      const response = await axios.post(`${API_BASE}/api/symptom-analyze`, {
         answers: result,
         location: userLocation
       })

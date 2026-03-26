@@ -14,14 +14,17 @@ router.get('/symptom-flow', async (req, res) => {
       messages: [
         {
           role: 'system',
-          content: `Generate a symptom assessment flow as JSON array. Each question should have:
-          - id: unique identifier
-          - question: the question text
-          - type: "yesno", "choice", or "multichoice"
-          - options: array of options (for choice/multichoice)
-          - followup: optional nested questions based on answers
+          content: `You are an Oncology & Diagnostic Triage Expert. Generate a dynamic assessment flow as a JSON object with a "flow" key.
           
-          Create 5-7 relevant questions based on the user's initial symptom. Return ONLY valid JSON array.`
+          CRITICAL: If the user mentions "Cancer", "Tumor", or "Mass", do NOT ask about fever first. Ask about duration, location, changes in the mass, weight loss, and fatigue.
+          
+          Each question MUST have:
+          - id: string
+          - question: string
+          - type: "yesno", "choice", or "multichoice"
+          - options: array (required for choice/multichoice)
+          
+          Return EXACTLY this format: { "flow": [...] }`
         },
         {
           role: 'user',
@@ -38,11 +41,11 @@ router.get('/symptom-flow', async (req, res) => {
     
     // Default flow if AI doesn't return proper format
     const defaultFlow = [
-      { id: 'fever', question: 'Do you have a fever?', type: 'yesno' },
-      { id: 'duration', question: 'How long have you had these symptoms?', type: 'choice', options: ['Less than 24 hours', '1-3 days', '3-7 days', 'More than a week'] },
-      { id: 'severity', question: 'How severe is your discomfort?', type: 'choice', options: ['Mild', 'Moderate', 'Severe', 'Very Severe'] },
-      { id: 'other_symptoms', question: 'Do you have any other symptoms?', type: 'multichoice', options: ['Headache', 'Cough', 'Fatigue', 'Body aches', 'Nausea', 'None'] },
-      { id: 'medical_history', question: 'Do you have any chronic medical conditions?', type: 'yesno' }
+      { id: 'onset', question: 'When did you first notice these symptoms?', type: 'choice', options: ['Today', '1-3 days ago', 'Within the last week', 'More than a month ago'] },
+      { id: 'location', question: 'Where specifically is the discomfort located?', type: 'choice', options: ['Head/Neck', 'Chest/Back', 'Abdomen', 'Limbs', 'Systemic (Whole Body)'] },
+      { id: 'severity', question: 'On a scale of 1-10, how severe is your discomfort?', type: 'choice', options: ['1-3 (Mild)', '4-6 (Moderate)', '7-8 (Severe)', '9-10 (Critical)'] },
+      { id: 'weight_loss', question: 'Have you experienced any unexplained weight loss recently?', type: 'yesno' },
+      { id: 'history', question: 'Do you have a personal or family history of similar conditions?', type: 'yesno' }
     ];
 
     res.json({ flow: result.flow || defaultFlow });
@@ -72,7 +75,20 @@ router.post('/symptom-collect', async (req, res) => {
       messages: [
         {
           role: 'system',
-          content: `Analyze symptoms and return JSON with: severity, urgency, summary, assessment, recommendation`
+          content: `You are a Senior Diagnostic Consultant. Analyze the provided symptom questionnaire results and provide a professional medical assessment.
+          
+          You MUST return a JSON object with the following fields:
+          - urgency: "low", "medium", "high", or "emergency"
+          - severity_score: a number from 1-10
+          - summary: Array of 3-5 key findings (symptoms mentioned)
+          - conditions: Array of { name, probability } (Top 3 most likely conditions)
+          - assessment: A professional medical summary of the situation.
+          - actions: Array of 3-4 immediate care steps.
+          - warning_signs: Array of 3-4 "red flags" specific to these symptoms.
+          - specialty: The exact medical specialist recommended (e.g., "Oncologist", "Cardiologist").
+          - recommendation: Final advice on when and where to seek care.
+          
+          Note: Be objective, clinical, and conservative in your estimates.`
         },
         {
           role: 'user',

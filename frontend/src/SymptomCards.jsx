@@ -11,7 +11,7 @@ export default function SymptomCards({ onComplete }) {
   const [result, setResult] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/symptom-flow?message=${encodeURIComponent(window.lastUserMessage || '')}`)
+    fetch(`${API_BASE}/api/symptom-flow?message=${encodeURIComponent(window.lastUserMessage || '')}`)
       .then(r => r.json())
       .then(data => setFlow(data.flow));
   }, []);

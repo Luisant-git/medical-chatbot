@@ -301,7 +301,7 @@ function ChatBot({ onLogout }) {
         {messages.map((msg, idx) => (
           <div key={idx} className={`message ${msg.sender}`}>
             <div className="message-content">
-              {msg.sender === 'bot' && msg.text.length > 300 ? (
+              {msg.sender === 'bot' && msg.text && msg.text.length > 300 ? (
                 <div className="info-card">
                   {msg.text.split('\n').map((line, i) => {
                     if (line.trim().match(/^\d+\./)) {
@@ -315,7 +315,7 @@ function ChatBot({ onLogout }) {
                   })}
                 </div>
               ) : (
-                <p>{msg.text}</p>
+                <p>{msg.text || ''}</p>
               )}
               {msg.data && msg.data.urgency && (
                 <div className={`assessment-card ${msg.data.urgency}`}>

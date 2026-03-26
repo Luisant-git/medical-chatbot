@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './SymptomCards.css';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/api$/, '');
 
 export default function SymptomCards({ onComplete }) {
   const [flow, setFlow] = useState([]);
